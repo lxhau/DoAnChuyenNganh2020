@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DoAnChuyenNganh</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <dimen name="_10sdp">10.00dp</dimen>
+    <dimen name="_15sdp">15.00dp</dimen>
+    <dimen name="_19sdp">19.00dp</dimen>
+</resources>

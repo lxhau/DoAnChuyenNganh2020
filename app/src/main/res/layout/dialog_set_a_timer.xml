@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#00FFFFFF"
+    android:id="@+id/layout_dialog_set_a_timer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:padding="@dimen/_15sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:gravity="center_horizontal"
+        android:background="@drawable/background_item"
+        android:layout_width="220dp"
+        android:layout_height="310dp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:paddingTop="45dp"
+            android:scaleType="centerCrop"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:id="@+id/lottieAnimationView_Clook"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/clock" />
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Bạn cần hẹn giờ cập nhật"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView_Clook"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <Button
+            android:backgroundTint="@color/colorNoteColor7"
+            android:background="@drawable/background_item"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:text="OK"
+            android:id="@+id/btn_datgiolai"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</LinearLayout>
