@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -25,7 +26,7 @@ import org.jsoup.select.Elements;
 
 public class UpdateDataService extends Service {
 
-    Items chon;
+    String title = "";
 
     public UpdateDataService() {
     }
@@ -43,25 +44,31 @@ public class UpdateDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(getApplicationContext(),"Service Update Chạy",Toast.LENGTH_LONG).show();
 
         String uri = "http://stu.edu.vn/vi/cat/21/thong-bao.html?pIndex=" + 1 + "&per-page=21";
         getHTMLbyURL(uri);
-        checkData();
+
         return START_STICKY;
     }
     private void checkData(){
         if(!restorePrefData().equals("")){
-            if(restorePrefData().equals(chon.getTitle())){
-                Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
-                serviceIntent.putExtra("inputExtra", "Không có thông báo nào mới");
-                ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
-            }else{
-                Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
-                serviceIntent.putExtra("inputExtra", "Có Thông Báo Mới");
-                ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
+            Log.d("TAG",restorePrefData());
+            Log.d("TAG",title);
+
+                if (restorePrefData().equals(title)) {
+                    Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
+                    serviceIntent.putExtra("inputExtra", "Không có thông báo nào mới");
+                    ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
+                } else {
+                    Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
+                    serviceIntent.putExtra("inputExtra", "Có Thông Báo Mới");
+                    ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
+                }
             }
-        }
+
     }
+
     private String restorePrefData() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(MainActivity.SHARED_PREFERENCE,MODE_PRIVATE);
         String data = pref.getString("oldData","");
@@ -69,7 +76,6 @@ public class UpdateDataService extends Service {
     }
 
     private String getHTMLbyURL(String url){
-        chon= null;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -84,17 +90,18 @@ public class UpdateDataService extends Service {
 
                     Element elementDate = items.getElementsByTag("span").first();
                     Datecreated = subString.subDate(elementDate.text());
-                    Log.d("TAG","Date: " + Datecreated);
+                    //Log.d("TAG","Date: " + Datecreated);
 
                     Link = items.attr("href");
-                    Log.d("TAG","Link: " + Link);
+                    //Log.d("TAG","Link: " + Link);
 
                     Title = subString.subTrimTitle(Link.toString(),items.toString(),elementDate.toString());
-                    Log.d("TAG","Title: " + Title);
+                   // Log.d("TAG","Title: " + Title);
 
-                    chon = new Items(Title,Link,Datecreated,false);
+                    title=Title;
                     break;
                 }
+                checkData();
             }
         }, new Response.ErrorListener() {
             @Override

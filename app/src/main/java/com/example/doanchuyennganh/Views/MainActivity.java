@@ -77,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void showTimePicker(){
         calendar =Calendar.getInstance();
 
