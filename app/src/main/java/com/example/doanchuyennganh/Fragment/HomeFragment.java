@@ -74,9 +74,7 @@ public class HomeFragment extends Fragment {
         refeshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter = null;
-                adapter=new ItemAdapter(getActivity(),R.layout.layout_item,MainActivity.ListItems);
-                listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 refeshLayout.setRefreshing(false);
             }
         });
@@ -85,12 +83,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if(position>=0&&position<adapter.getCount()) {
-                    Toast.makeText(getActivity(),adapter.getItem(position).toString(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(),adapter.getItem(position).toString(),Toast.LENGTH_LONG).show();
+
                     MainActivity.itemsclick = adapter.getItem(position);
                     chon=adapter.getItem(position);
+
                     clickReadItem();
+
                     MainActivity.ListItems.get(position).setSeen(true);
-                    adapter.notifyDataSetChanged();
+                    //adapter.notifyDataSetChanged();
+
                     Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_browserFragment);
 
                 }
@@ -115,6 +117,12 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     private void clickReadItem(){
@@ -150,7 +158,6 @@ public class HomeFragment extends Fragment {
         adapter = new ItemAdapter(getActivity(),R.layout.layout_item,MainActivity.ListItems);
         listView.setAdapter(adapter);
         listView.setDividerHeight(0);
-       // list= new ArrayList<>();
 
     }
 

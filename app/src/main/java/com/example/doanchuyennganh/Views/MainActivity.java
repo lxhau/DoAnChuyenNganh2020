@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,9 +23,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.doanchuyennganh.BuildConfig;
 import com.example.doanchuyennganh.Database.ItemsDatabase;
 import com.example.doanchuyennganh.Models.Items;
 import com.example.doanchuyennganh.R;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
     AlertDialog dialog;
+    public static String versionNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         addControls();
         addEvents();
-        
+        if(restorePrefData()){
+            getAllItems();
+        }else{
+            showTimePicker();
+        }
     }
 
 
@@ -65,16 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void addControls() {
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        versionNumber = BuildConfig.VERSION_NAME;
+
+        //String versionName = pinfo.versionName;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(restorePrefData()){
-            getAllItems();
-        }else{
-            showTimePicker();
-        }
+
     }
 
     private void showTimePicker(){
@@ -209,8 +217,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAllItems(){
+
         @SuppressLint("StaticFieldLeak")
         class GetItemsTask extends AsyncTask<Void,Void, List<Items>> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                MainActivity.ListItems.clear();
+            }
+
             @Override
             protected List<Items> doInBackground(Void... voids) {
                 return ItemsDatabase
@@ -226,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
                 saveData();
                 Collections.sort(ListItems);
                 MainActivity.REST=200;
-
             }
         }
         new GetItemsTask().execute();
     }
+
 }

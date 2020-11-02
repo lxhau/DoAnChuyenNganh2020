@@ -19,8 +19,7 @@ public interface ItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertItems(Items items);
 
-    @Delete
-    void deleteItems(Items items);
-
+    @Query("DELETE FROM items")
+    void deleteAll();
 
 }

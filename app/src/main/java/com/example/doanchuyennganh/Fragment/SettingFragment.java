@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -33,7 +35,7 @@ public class SettingFragment extends Fragment {
 
     View view;
     String time= "";
-    TextView txt_hengio;
+    TextView txt_hengio,txt_version;
     Calendar calendar;
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
@@ -55,6 +57,9 @@ public class SettingFragment extends Fragment {
         txt_hengio=view.findViewById(R.id.txt_hengio);
         btn_back_to_Home=view.findViewById(R.id.btn_back_to_Home);
         alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        txt_version= view.findViewById(R.id.txt_numberver);
+
+        txt_version.setText("Phiên Bản: "+ MainActivity.versionNumber);
     }
 
     private void addEvents() {
@@ -73,6 +78,7 @@ public class SettingFragment extends Fragment {
     }
 
     private boolean getDataCache() {
+
         SharedPreferences pref = getActivity().getSharedPreferences(MainActivity.SHARED_PREFERENCE, Context.MODE_PRIVATE);
         time = pref.getString("timeUpdate","NULL");
         txt_hengio.setText(time);
