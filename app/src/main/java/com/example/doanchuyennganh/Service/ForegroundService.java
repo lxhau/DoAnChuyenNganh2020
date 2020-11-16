@@ -30,18 +30,22 @@ public class ForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String input = intent.getStringExtra("inputExtra");
         createNotificationChannel();
-       /* Intent notificationIntent = new Intent(this, MainActivity.class);
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                0, notificationIntent, 0);*/
+                911, notificationIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+
                 .setContentTitle("Thông báo")
                 .setContentText(input)
                 .setSmallIcon(R.drawable.ic_icon_notifications)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .setSound(uri)
                 .build();
 
-        startForeground(1, notification);
+        startForeground(115, notification);
 
         return START_NOT_STICKY;
     }
@@ -59,9 +63,8 @@ public class ForegroundService extends Service {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
                     "Thông Báo",
-                    NotificationManager.IMPORTANCE_LOW
+                    NotificationManager.IMPORTANCE_DEFAULT
             );
-
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }

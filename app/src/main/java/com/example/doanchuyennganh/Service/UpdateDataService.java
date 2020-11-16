@@ -1,7 +1,9 @@
 package com.example.doanchuyennganh.Service;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -53,7 +55,7 @@ public class UpdateDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(getApplicationContext(),"Service Update Chạy",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Đang kiểm tra thông báo mới.",Toast.LENGTH_LONG).show();
 
         String uri = "http://stu.edu.vn/vi/cat/21/thong-bao.html?pIndex=" + 1 + "&per-page=21";
         getHTMLbyURL(uri);
@@ -62,12 +64,13 @@ public class UpdateDataService extends Service {
     }
     private void checkData(){
         if(!restorePrefData().equals("")){
+
             Log.d("TAG","1"+restorePrefData());
             Log.d("TAG","2"+title);
 
                 if (restorePrefData().equals(title)) {
                     Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
-                    serviceIntent.putExtra("inputExtra", "Không có thông báo nào mới");
+                    serviceIntent.putExtra("inputExtra", "Không có thông báo nào mới.");
                     ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
                 } else {
                     DelleteAll();

@@ -45,13 +45,13 @@ public class ItemAdapter extends ArrayAdapter<Items> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_item,parent,false);
+        convertView = LayoutInflater.from(context).inflate(R.layout.layout_item,parent,false);
 
         TextView title,date;
-        title=view.findViewById(R.id.txt_title);
-        date=view.findViewById(R.id.txt_date);
+        title=convertView.findViewById(R.id.txt_title);
+        date=convertView.findViewById(R.id.txt_date);
 
-        final Items items= listitems.get(position);
+        Items items= listitems.get(position);
         title.setText(items.getTitle());
         date.setText(items.getDateCreated());
 
@@ -59,7 +59,7 @@ public class ItemAdapter extends ArrayAdapter<Items> {
             title.setTextColor(Color.BLACK);
         }
 
-        return  view;
+        return  convertView;
     }
 
     public void searchNotes(final String searchNodeKeyWord){

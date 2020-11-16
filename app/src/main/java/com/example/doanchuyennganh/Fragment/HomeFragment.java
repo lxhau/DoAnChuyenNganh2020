@@ -27,7 +27,9 @@ import com.example.doanchuyennganh.Database.ItemsDatabase;
 import com.example.doanchuyennganh.Models.Items;
 import com.example.doanchuyennganh.R;
 import com.example.doanchuyennganh.Service.ForegroundService;
+import com.example.doanchuyennganh.Service.UpdateDataService;
 import com.example.doanchuyennganh.Service.getRSS;
+import com.example.doanchuyennganh.Until.isInternetAvailable;
 import com.example.doanchuyennganh.Views.MainActivity;
 
 import java.util.ArrayList;
@@ -74,6 +76,12 @@ public class HomeFragment extends Fragment {
         refeshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if(isInternetAvailable.isInternetAvai(getActivity())==true){
+                   // Intent intentservice = new Intent(getActivity(), UpdateDataService.class);
+                   // getActivity().startService(intentservice);
+                }else{
+                    Toast.makeText(getActivity(),"Không có kết nối Internet",Toast.LENGTH_LONG).show();
+                }
                 adapter.notifyDataSetChanged();
                 refeshLayout.setRefreshing(false);
             }

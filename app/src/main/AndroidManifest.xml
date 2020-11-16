@@ -20,14 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <service
-            android:name=".Service.UpdateDataService"
-            android:enabled="true"
-            android:exported="true"></service>
-        <service
-            android:name=".Service.ForegroundService"
-            android:enabled="true"
-            android:exported="true" />
 
         <activity android:name=".Views.MainActivity">
             <intent-filter>
@@ -37,6 +29,14 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".Service.UpdateDataService"
+            android:enabled="true"
+            android:exported="true"/>
+        <service
+            android:name=".Service.ForegroundService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".Service.getRSS"
             android:enabled="true" />

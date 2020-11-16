@@ -15,6 +15,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent">
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageButton
@@ -27,6 +28,8 @@
                 android:layout_height="25dp"/>
 
             <TextView
+                android:inputType="text"
+                android:layout_weight="1"
                 android:maxLength="35"
                 android:id="@+id/txt_url"
                 android:paddingStart="@dimen/_10sdp"
@@ -36,13 +39,21 @@
                 android:text="http://stu.edu.vn/"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+            <ImageButton
+                android:background="@drawable/ic_baseline_reply_24"
+                android:id="@+id/btn_openotherbrowser"
+                android:rotation="-180"
+                android:layout_margin="@dimen/_15sdp"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </LinearLayout>
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/progress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="2dp" />
+        android:layout_height="3dp" />
     <WebView
         android:layout_weight="1"
         android:id="@+id/webview"

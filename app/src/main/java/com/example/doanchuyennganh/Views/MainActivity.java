@@ -3,6 +3,7 @@ package com.example.doanchuyennganh.Views;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -15,6 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,7 @@ import com.example.doanchuyennganh.BuildConfig;
 import com.example.doanchuyennganh.Database.ItemsDatabase;
 import com.example.doanchuyennganh.Models.Items;
 import com.example.doanchuyennganh.R;
+import com.example.doanchuyennganh.Service.ForegroundService;
 import com.example.doanchuyennganh.Service.TimerClockReceiver;
 import com.example.doanchuyennganh.Service.getRSS;
 import com.example.doanchuyennganh.Until.FormatUntil;
@@ -75,8 +79,14 @@ public class MainActivity extends AppCompatActivity {
     private void addControls() {
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         versionNumber = BuildConfig.VERSION_NAME;
+        try {
+            stopService(new Intent(this, ForegroundService.class));
+            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(115);
+        }catch (Exception e){
 
-        //String versionName = pinfo.versionName;
+        }
+
     }
 
     @Override
@@ -103,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this, listener,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),false);
-
+        timePickerDialog.setTitle("Hẹn Giờ Cập Nhật !");
         timePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
@@ -184,7 +194,14 @@ public class MainActivity extends AppCompatActivity {
         pendingIntent = PendingIntent.getBroadcast(
                 MainActivity.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT
         );
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+        /*alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
+                AlarmManager.INTERVAL_HALF_HOUR,AlarmManager.INTERVAL_HALF_HOUR,pendingIntent);*/
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+        /// Set lap lai hang ngay cho alarm service
+
+        //alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
         saveTimeUpdate(calendar);
 
@@ -246,5 +263,6 @@ public class MainActivity extends AppCompatActivity {
         }
         new GetItemsTask().execute();
     }
+
 
 }

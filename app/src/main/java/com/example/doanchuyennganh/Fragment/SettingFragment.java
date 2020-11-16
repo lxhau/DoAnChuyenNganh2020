@@ -111,7 +111,8 @@ public class SettingFragment extends Fragment {
         pendingIntent = PendingIntent.getBroadcast(
                 getActivity(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT
         );
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
 
         saveTimeUpdate(calendar);
 
