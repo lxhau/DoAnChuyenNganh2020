@@ -10,14 +10,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +21,6 @@ import android.widget.Button;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -34,8 +28,9 @@ import com.example.doanchuyennganh.BuildConfig;
 import com.example.doanchuyennganh.Database.ItemsDatabase;
 import com.example.doanchuyennganh.Models.Items;
 import com.example.doanchuyennganh.R;
+import com.example.doanchuyennganh.Receiver.TimerClockReceiver;
 import com.example.doanchuyennganh.Service.ForegroundService;
-import com.example.doanchuyennganh.Service.TimerClockReceiver;
+import com.example.doanchuyennganh.Service.UpdateDataService;
 import com.example.doanchuyennganh.Service.getRSS;
 import com.example.doanchuyennganh.Until.FormatUntil;
 
@@ -64,25 +59,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addControls();
-        addEvents();
+
         if(restorePrefData()){
             getAllItems();
         }else{
+
             showTimePicker();
         }
     }
 
 
-    private void addEvents() {
-    }
 
     private void addControls() {
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         versionNumber = BuildConfig.VERSION_NAME;
         try {
+            stopService(new Intent(this, UpdateDataService.class));
             stopService(new Intent(this, ForegroundService.class));
             NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancel(115);
+            alarmManager.cancel(pendingIntent);
         }catch (Exception e){
 
         }
@@ -92,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     private void showTimePicker(){
@@ -149,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(view);
 
         dialog= builder.create();
+
         if(dialog.getWindow() !=null){
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
@@ -179,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 if(FLAG==200){
                     //saveData();
                     getAllItems();
+                    Cancel();
                     dialog.dismiss();
 
                 }else{
@@ -188,20 +185,20 @@ public class MainActivity extends AppCompatActivity {
         },2000);
     }
 
+    private void Cancel(){
+        stopService(new Intent(this, getRSS.class));
+    }
+
     private void setTime(Calendar calendar){
 
+        int ALARM1_ID = 10000;
         final Intent intent= new Intent(MainActivity.this, TimerClockReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(
-                MainActivity.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT
+                MainActivity.this,ALARM1_ID,intent,PendingIntent.FLAG_UPDATE_CURRENT
         );
-        /*alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
-                AlarmManager.INTERVAL_HALF_HOUR,AlarmManager.INTERVAL_HALF_HOUR,pendingIntent);*/
-
+        long interval = 60 * 60 * 1000 * 6; // Đặt lịch cập nhật sau 6 tiếng.
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
-        /// Set lap lai hang ngay cho alarm service
-
-        //alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+                        interval, pendingIntent); // Set lap lai hang ngay cho alarm service
 
         saveTimeUpdate(calendar);
 
@@ -218,23 +215,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveTimeUpdate(Calendar calendar){
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(SHARED_PREFERENCE,MODE_PRIVATE);
+        SharedPreferences pref = this.getSharedPreferences(SHARED_PREFERENCE,MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("timeUpdate",FormatUntil.formatTime(calendar.getTime()));
         editor.putBoolean("isOpnend",true);
         editor.commit();
     }
 
-    private void saveData(){
+    public static void saveData(Context context){
         //Toast.makeText(getApplicationContext(),ListItems.get(ListItems.size()-1).getTitle()+"",Toast.LENGTH_SHORT).show();
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(SHARED_PREFERENCE,MODE_PRIVATE);
+        SharedPreferences pref =context.getSharedPreferences(SHARED_PREFERENCE,MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("oldData",ListItems.get(ListItems.size()-1).getTitle()+"");
+        editor.putString("oldData",ListItems.get(ListItems.size()-1).getLinkURL()+"");
         editor.commit();
+        try {
+            context.stopService(new Intent(context,getRSS.class));
+        }catch (Exception e){
+
+        }
+
     }
 
     private void getAllItems(){
-
         @SuppressLint("StaticFieldLeak")
         class GetItemsTask extends AsyncTask<Void,Void, List<Items>> {
 
@@ -256,9 +258,10 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(List<Items> items) {
                 super.onPostExecute(items);
                 ListItems.addAll(items);
-                saveData();
+                saveData(getApplicationContext());
                 Collections.sort(ListItems);
                 MainActivity.REST=200;
+
             }
         }
         new GetItemsTask().execute();

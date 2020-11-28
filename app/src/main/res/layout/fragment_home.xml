@@ -20,10 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
+                android:padding="10dp"
+                android:src="@drawable/logo"
                 android:layout_width="110dp"
                 android:layout_height="80dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo" />
+                android:scaleType="centerInside" />
 
             <LinearLayout
                 android:layout_weight="1"
@@ -58,7 +59,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:elevation="16dp"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -66,29 +66,22 @@
             android:layout_marginBottom="5dp"
             android:layout_weight="1">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:padding="2dp"
-                android:id="@+id/btnSearch"
-                android:src="@drawable/icon_seach" />
+
             <LinearLayout
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="40dp"
+                android:id="@+id/btnSearch"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@drawable/bg_searchview"
-                android:backgroundTint="#EEEEEE"
                 android:gravity="center"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="26dp">
 
                 <EditText
-
-                    android:id="@+id/inputSearch"
-                    android:layout_width="match_parent"
+                    android:drawableStart="@drawable/icon_seach"
+                    android:enabled="false"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@null"

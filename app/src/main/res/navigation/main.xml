@@ -19,10 +19,35 @@
         <action
             android:id="@+id/action_homeFragment_to_browserFragment"
             app:destination="@id/browserFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/fragment_fade_enter" />
+        <action
+            android:id="@+id/action_homeFragment_to_seeMoreFragment"
+            app:destination="@id/seeMoreFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.doanchuyennganh.Fragment.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.doanchuyennganh.Fragment.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_browserFragment"
+            app:destination="@id/browserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/seeMoreFragment"
+        android:name="com.example.doanchuyennganh.Fragment.SeeMoreFragment"
+        android:label="fragment_see_more"
+        tools:layout="@layout/fragment_see_more" >
+        <action
+            android:id="@+id/action_seeMoreFragment_to_browserFragment"
+            app:destination="@id/browserFragment" />
+    </fragment>
 </navigation>

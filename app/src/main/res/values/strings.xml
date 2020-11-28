@@ -4,4 +4,6 @@
     <dimen name="_10sdp">10.00dp</dimen>
     <dimen name="_15sdp">15.00dp</dimen>
     <dimen name="_19sdp">19.00dp</dimen>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

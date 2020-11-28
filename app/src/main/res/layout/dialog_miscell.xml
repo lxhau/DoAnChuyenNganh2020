@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom">
+
+    <LinearLayout
+    android:elevation="@dimen/_19sdp"
+    android:background="#FFF"
+    android:paddingBottom="5dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        app:cardBackgroundColor="#F1f1f1"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"/>
+        <LinearLayout
+            android:id="@+id/Share"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <ImageView
+                android:src="@drawable/icon_share"
+                android:padding="17dp"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
+            <TextView
+                android:gravity="center_vertical"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Chia sẽ liên kết."
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Open"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <ImageView
+                android:src="@drawable/ic_baseline_open_in_new_24"
+                android:padding="16dp"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
+            <TextView
+                android:gravity="center_vertical"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Mở bằng trình duyệt ngoài."
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Copy"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <ImageView
+                android:src="@drawable/ic_baseline_content_copy_24"
+                android:padding="16dp"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"/>
+            <TextView
+                android:gravity="center_vertical"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Chép vào bộ nhớ tạm."
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+</LinearLayout>
+
+
+</FrameLayout>

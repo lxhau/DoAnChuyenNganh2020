@@ -11,6 +11,7 @@ import com.example.doanchuyennganh.Models.Items;
 
 @Database(entities= Items.class, version = 1, exportSchema = false)
 public abstract class ItemsDatabase extends RoomDatabase {
+
     private static  ItemsDatabase ItemsDatabase;
 
     public static synchronized ItemsDatabase getDatabase(Context context){

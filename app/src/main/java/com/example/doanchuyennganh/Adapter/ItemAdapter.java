@@ -28,7 +28,6 @@ import java.util.TimerTask;
 public class ItemAdapter extends ArrayAdapter<Items> {
 
     List<Items> listitems;
-    List<Items> listitemssource;
     Activity context;
     int resource;
     private Timer timer;
@@ -39,7 +38,6 @@ public class ItemAdapter extends ArrayAdapter<Items> {
         this.context = context;
         this.resource= resource;
         this.listitems = objects;
-        listitemssource= listitems;
     }
 
     @NonNull
@@ -61,41 +59,5 @@ public class ItemAdapter extends ArrayAdapter<Items> {
 
         return  convertView;
     }
-
-    public void searchNotes(final String searchNodeKeyWord){
-        timer= new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(searchNodeKeyWord.trim().isEmpty()){
-                    listitems= listitemssource;
-                }else{
-                    ArrayList<Items> items=new ArrayList<>();
-                    for(Items note: listitemssource){
-                        if (note.getTitle().toLowerCase().contains(searchNodeKeyWord.toLowerCase())
-                                || note.getDateCreated().toLowerCase().contains(searchNodeKeyWord.toLowerCase())
-                               ){
-                            items.add(note);
-                        }
-                    }
-                    listitems=items;
-                }
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-            }
-
-        }, 200);
-    }
-
-    public void cancelTimer(){
-        if(timer !=null){
-            timer.cancel();
-        }
-    }
-
 
 }

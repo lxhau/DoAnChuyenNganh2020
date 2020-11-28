@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
             <ImageButton
-                android:background="@drawable/ic_baseline_reply_24"
+                android:background="@drawable/ic_baseline_more_vert_24"
                 android:id="@+id/btn_openotherbrowser"
                 android:rotation="-180"
                 android:layout_margin="@dimen/_15sdp"
@@ -48,12 +48,14 @@
                 android:layout_height="match_parent"/>
         </LinearLayout>
     </LinearLayout>
+
     <ProgressBar
         android:visibility="gone"
         android:id="@+id/progress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="3dp" />
+
     <WebView
         android:layout_weight="1"
         android:id="@+id/webview"

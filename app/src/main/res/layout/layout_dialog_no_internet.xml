@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/layout_dialog_no_internet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:gravity="center_horizontal"
+        android:elevation="16dp"
+        android:background="@drawable/bg_dialog_no_internet"
+        android:layout_width="220dp"
+        android:layout_height="320dp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:paddingTop="45dp"
+            android:scaleType="centerCrop"
+            app:lottie_loop="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:id="@+id/imgView_gif_nointernet"
+            android:layout_width="150dp"
+            android:layout_height="170dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/no_internet_connection_empty_state" />
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Không có Internet"
+            android:textAlignment="center"
+            android:textColor="#000"
+            app:layout_constraintTop_toBottomOf="@+id/imgView_gif_nointernet" />
+
+        <TextView
+            android:textColor="#000"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Không có kết nối mạng \n vui lòng thử lại."
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:weightSum="10"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <Button
+                android:id="@+id/btn_goToSetting"
+                android:layout_weight="3"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/ubuntu_bold"
+                android:drawableStart="@drawable/ic_baseline_settings_24"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:backgroundTint="#FCCD00"
+                android:background="@drawable/bg_searchview"
+                android:layout_gravity="center"
+                android:text="Cài Đặt"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_weight="7"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/ubuntu_bold"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:backgroundTint="#FCCD00"
+                android:background="@drawable/bg_searchview"
+                android:layout_gravity="center"
+                android:text="OK"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

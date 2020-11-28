@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "138258609552",
+    "firebase_url": "https://doanchuyennganh-bc267.firebaseio.com",
+    "project_id": "doanchuyennganh-bc267",
+    "storage_bucket": "doanchuyennganh-bc267.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138258609552:android:490ff0682a12ff352c2f15",
+        "android_client_info": {
+          "package_name": "com.example.doanchuyennganh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138258609552-b7qjbl40be0fkhbl938q2qilfuaq2n6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN7dml0Ts7uyvOspqECubhN2ahA-pCqLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138258609552-b7qjbl40be0fkhbl938q2qilfuaq2n6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

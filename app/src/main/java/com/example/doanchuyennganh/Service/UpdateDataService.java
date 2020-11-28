@@ -35,9 +35,10 @@ import java.util.List;
 
 public class UpdateDataService extends Service {
 
-    String title = "";
+    String link = "";
+    String title="";
     Items chon;
-    int i=0;
+    int i = 0;
 
     public UpdateDataService() {
     }
@@ -55,48 +56,51 @@ public class UpdateDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(getApplicationContext(),"Đang kiểm tra thông báo mới.",Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(), "Đang kiểm tra thông báo mới.", Toast.LENGTH_LONG).show();
 
         String uri = "http://stu.edu.vn/vi/cat/21/thong-bao.html?pIndex=" + 1 + "&per-page=21";
         getHTMLbyURL(uri);
 
         return START_STICKY;
     }
-    private void checkData(){
-        if(!restorePrefData().equals("")){
 
-            Log.d("TAG","1"+restorePrefData());
-            Log.d("TAG","2"+title);
+    private void checkData() {
+        if (!restorePrefData().equals("")) {
 
-                if (restorePrefData().equals(title)) {
-                    Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
+            Log.d("TAG", "1" + restorePrefData());
+            Log.d("TAG", "2" + link);
+
+            if (restorePrefData().equals(link)) {
+                Toast.makeText(getApplicationContext(), "Khoa không có thông báo nào mới!", Toast.LENGTH_LONG).show();
+
+                    /* Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
                     serviceIntent.putExtra("inputExtra", "Không có thông báo nào mới.");
-                    ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
-                } else {
-                    DelleteAll();
-                }
+                    ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);*/
+            } else {
+                DelleteAll();
             }
+        }
 
     }
 
     private String restorePrefData() {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(MainActivity.SHARED_PREFERENCE,MODE_PRIVATE);
-        String data = pref.getString("oldData","");
-        return  data;
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(MainActivity.SHARED_PREFERENCE, MODE_PRIVATE);
+        String data = pref.getString("oldData", "");
+        return data;
     }
 
-    private String getHTMLbyURL(String url){
+    private String getHTMLbyURL(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Document document = Jsoup.parse(response);
-                Elements array =   document.select("a.listNewsItem");
+                Elements array = document.select("a.listNewsItem");
 
-                for(Element items : array){
-                    String Title=null;
-                    String Datecreated =null;
-                    String Link=null;
+                for (Element items : array) {
+                    String Title = null;
+                    String Datecreated = null;
+                    String Link = null;
 
                     Element elementDate = items.getElementsByTag("span").first();
                     Datecreated = subString.subDate(elementDate.text());
@@ -105,9 +109,10 @@ public class UpdateDataService extends Service {
                     Link = items.attr("href");
                     //Log.d("TAG","Link: " + Link);
 
-                    Title = subString.subTrimTitle(Link.toString(),items.toString(),elementDate.toString());
-                   // Log.d("TAG","Title: " + Title);
+                    Title = subString.subTrimTitle(Link.toString(), items.toString(), elementDate.toString());
+                    // Log.d("TAG","Title: " + Title);
 
+                    link = Link;
                     title=Title;
                     break;
                 }
@@ -116,7 +121,7 @@ public class UpdateDataService extends Service {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG",error.getMessage());
+                Log.e("TAG", error.getMessage());
             }
         });
 
@@ -124,16 +129,16 @@ public class UpdateDataService extends Service {
         return requestQueue.add(stringRequest).toString();
     }
 
-    private void DelleteAll(){
+    private void DelleteAll() {
 
-        class DeleteAll extends AsyncTask<Void,Void, List<Items>> {
+        class DeleteAll extends AsyncTask<Void, Void, List<Items>> {
             @Override
             protected List<Items> doInBackground(Void... voids) {
-                 ItemsDatabase
+                ItemsDatabase
                         .getDatabase(getApplicationContext())
                         .noteDao()
                         .deleteAll();
-                 return null;
+                return null;
             }
 
             @Override
@@ -143,7 +148,7 @@ public class UpdateDataService extends Service {
                 updateDatabase(uri);
 
                 Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
-                serviceIntent.putExtra("inputExtra", title);
+                serviceIntent.putExtra("inputExtra", link);
                 ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
 
             }
@@ -151,41 +156,38 @@ public class UpdateDataService extends Service {
         new DeleteAll().execute();
     }
 
-    private String updateDatabase(String url){
-        chon= null;
+    private String updateDatabase(String url) {
+        chon = null;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Document document = Jsoup.parse(response);
-                Elements array =   document.select("a.listNewsItem");
+                Elements array = document.select("a.listNewsItem");
 
-                for(Element items : array){
-                    String Title=null;
-                    String Datecreated =null;
-                    String Link=null;
+                for (Element items : array) {
+                    String Title = null;
+                    String Datecreated = null;
+                    String Link = null;
 
                     Element elementDate = items.getElementsByTag("span").first();
                     Datecreated = subString.subDate(elementDate.text());
-                    Log.d("TAG","Date: " + Datecreated);
+                    Log.d("TAG", "Date: " + Datecreated);
 
                     Link = items.attr("href");
-                    Log.d("TAG","Link: " + Link);
+                    Log.d("TAG", "Link: " + Link);
 
-                    Title = subString.subTrimTitle(Link.toString(),items.toString(),elementDate.toString());
-                    Log.d("TAG","Title: " + Title);
+                    Title = subString.subTrimTitle(Link.toString(), items.toString(), elementDate.toString());
+                    Log.d("TAG", "Title: " + Title);
 
-                    chon = new Items(Title,Link,Datecreated,false);
+                    chon = new Items(Title, Link, Datecreated, false);
                     SaveDataInRoom(chon);
                 }
-
-
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG",error.getMessage());
+                Log.e("TAG", error.getMessage());
             }
         });
 
@@ -193,10 +195,15 @@ public class UpdateDataService extends Service {
         return requestQueue.add(stringRequest).toString();
     }
 
-    private void SaveDataInRoom(final Items news){
+    private void SaveDataInRoom(final Items news) {
 
         @SuppressLint("StaticFieldLeak")
-        class SaveItemsTask extends AsyncTask<Void,Void,Void>{
+        class SaveItemsTask extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected void onProgressUpdate(Void... values) {
+                super.onProgressUpdate(values);
+            }
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -210,8 +217,8 @@ public class UpdateDataService extends Service {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                chon=null;
-                if(i==21){
+                chon = null;
+                if (i == 21) {
                     Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
                     serviceIntent.putExtra("inputExtra", title);
                     ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);
