@@ -59,10 +59,10 @@ public class SearchFragment extends Fragment {
        btnSearch.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               if(inputSearch.getText().toString()!=""){
+               if(inputSearch.getText().length()>2){
                    getAllItems();
                }else {
-                   Toast.makeText(getActivity(),"Nhập từ khóa tìm kiếm",Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getActivity(),"Bạn cần nhập từ khóa dài hơn",Toast.LENGTH_SHORT).show();
                }
            }
        });

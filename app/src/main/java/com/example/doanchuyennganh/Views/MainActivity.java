@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void addControls() {
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         versionNumber = BuildConfig.VERSION_NAME;
@@ -80,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.cancel(115);
             alarmManager.cancel(pendingIntent);
         }catch (Exception e){
-
         }
-
     }
 
     @Override

@@ -86,7 +86,7 @@ public class getRSS extends Service {
                     Title = subString.subTrimTitle(Link.toString(),items.toString(),elementDate.toString());
                     Log.d("TAG","Title: " + Title);
 
-                    chon = new Items(Title,Link,Datecreated,false);
+                    chon = new Items(Title,Link,subString.convertDate(Datecreated),false);
                     SaveDataInRoom(chon);
                 }
                MainActivity.FLAG= 200;

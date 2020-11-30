@@ -56,7 +56,7 @@ public class UpdateDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-       // Toast.makeText(getApplicationContext(), "Đang kiểm tra thông báo mới.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Đang kiểm tra thông báo mới.", Toast.LENGTH_LONG).show();
 
         String uri = "http://stu.edu.vn/vi/cat/21/thong-bao.html?pIndex=" + 1 + "&per-page=21";
         getHTMLbyURL(uri);
@@ -71,8 +71,7 @@ public class UpdateDataService extends Service {
             Log.d("TAG", "2" + link);
 
             if (restorePrefData().equals(link)) {
-                Toast.makeText(getApplicationContext(), "Khoa không có thông báo nào mới!", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(), "Khoa chưa có thông báo nào mới!", Toast.LENGTH_LONG).show();
                     /* Intent serviceIntent = new Intent(getApplicationContext(), ForegroundService.class);
                     serviceIntent.putExtra("inputExtra", "Không có thông báo nào mới.");
                     ContextCompat.startForegroundService(getApplicationContext(), serviceIntent);*/
@@ -180,7 +179,7 @@ public class UpdateDataService extends Service {
                     Title = subString.subTrimTitle(Link.toString(), items.toString(), elementDate.toString());
                     Log.d("TAG", "Title: " + Title);
 
-                    chon = new Items(Title, Link, Datecreated, false);
+                    chon = new Items(Title, Link, subString.convertDate(Datecreated), false);
                     SaveDataInRoom(chon);
                 }
             }

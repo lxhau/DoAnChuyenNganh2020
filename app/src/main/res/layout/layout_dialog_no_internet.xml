@@ -59,7 +59,7 @@
                 android:layout_weight="3"
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="13dp"
                 android:fontFamily="@font/ubuntu_bold"
                 android:drawableStart="@drawable/ic_baseline_settings_24"
                 android:textColor="#000"
@@ -73,7 +73,7 @@
             <Button
                 android:id="@+id/btn_close"
                 android:layout_weight="7"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="13dp"
                 android:fontFamily="@font/ubuntu_bold"
                 android:textColor="#000"
                 android:layout_margin="10dp"
